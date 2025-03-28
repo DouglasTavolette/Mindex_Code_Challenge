@@ -46,6 +46,6 @@ public class EmployeeController {
     public ReportingStructure checkReportingStructure(@RequestBody String empID){
         
         LOG.debug("Received check reporting Structure request for [{}]", empID);
-        return employeeService.check(empID);
+        return employeeService.createRepStr(empID);
     }
 }

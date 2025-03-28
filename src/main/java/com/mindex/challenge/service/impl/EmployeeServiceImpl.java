@@ -49,8 +49,15 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     //This is my method for checking a ReportingStructure for the API
+    //The reason why I decided to write the new code in this file as opposed creating my own
+        //is because I wanted access to the employeeRepository that is already being populated by
+        //the prewritten code. I figured it would be easier to do it this way as opposed to creating a 
+        //duplicate employeeRepository that contained the exact same contents. I also considered making
+        //the original repository public instead of private, but I am under the impression that I should not 
+        //change any prewritten code.
+    //
     @Override
-    public ReportingStructure check(String empID){
+    public ReportingStructure createRepStr(String empID){
 
         ReportingStructure repStr = new ReportingStructure(employeeRepository.findByEmployeeId(empID));
 
