@@ -48,6 +48,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         return employeeRepository.save(employee);
     }
 
+    //This is my method for checking a ReportingStructure for the API
     @Override
     public ReportingStructure check(String empID){
 
