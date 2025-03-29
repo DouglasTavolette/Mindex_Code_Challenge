@@ -57,10 +57,28 @@ public class EmployeeServiceImpl implements EmployeeService {
         //change any prewritten code.
     //
     @Override
-    public ReportingStructure createRepStr(String empID){
+    public ReportingStructure createRepStr(String empID) {
+        Employee rootEmployee = employeeRepository.findByEmployeeId(empID);
+        if (rootEmployee == null) {
+            throw new RuntimeException("Invalid employeeId: " + empID);
+        }
 
-        ReportingStructure repStr = new ReportingStructure(employeeRepository.findByEmployeeId(empID));
+        // Ensure direct reports are fully populated
+        populateFullEmployee(rootEmployee);
 
-        return repStr;
+        return new ReportingStructure(rootEmployee);
     }
+
+    // Recursively replace Employee references with full Employee objects
+    private void populateFullEmployee(Employee emp) {
+        if (emp.getDirectReports() != null) {
+            for (int i = 0; i < emp.getDirectReports().size(); i++) {
+                Employee partialEmployee = emp.getDirectReports().get(i);
+                Employee fullEmployee = employeeRepository.findByEmployeeId(partialEmployee.getEmployeeId());
+                emp.getDirectReports().set(i, fullEmployee);
+                populateFullEmployee(fullEmployee); // Recurse
+            }
+        }
+    }
+
 }

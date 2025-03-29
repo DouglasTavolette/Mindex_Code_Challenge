@@ -37,13 +37,13 @@ public class EmployeeController {
     @PutMapping("/employee/{id}")
     public Employee update(@PathVariable String id, @RequestBody Employee employee) {
         LOG.debug("Received employee create request for id [{}] and employee [{}]", id, employee);
-
+        System.out.println("print employee controller "+ id);
         employee.setEmployeeId(id);
         return employeeService.update(employee);
     }
 
     @GetMapping("/reportingStructure/{id}")
-    public ReportingStructure checkReportingStructure(@RequestBody String empID){
+    public ReportingStructure checkReportingStructure(@PathVariable String empID){
         
         LOG.debug("Received check reporting Structure request for [{}]", empID);
         return employeeService.createRepStr(empID);
