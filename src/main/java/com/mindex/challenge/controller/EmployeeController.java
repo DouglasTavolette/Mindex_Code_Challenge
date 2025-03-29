@@ -42,10 +42,11 @@ public class EmployeeController {
         return employeeService.update(employee);
     }
 
-    @PostMapping("/reportingStructure")
+    @GetMapping("/reportingStructure/{id}")
     public ReportingStructure checkReportingStructure(@RequestBody String empID){
         
         LOG.debug("Received check reporting Structure request for [{}]", empID);
         return employeeService.createRepStr(empID);
     }
+
 }

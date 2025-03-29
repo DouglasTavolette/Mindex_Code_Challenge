@@ -1,28 +1,43 @@
 package com.mindex.challenge.data;
 
-import java.util.List;
+import com.mindex.challenge.service.EmployeeService;
 
 //this class is my take on the requirement for task 1
 public class ReportingStructure {
     private Employee employee;
     private int numberOfReports;
 
+    public ReportingStructure(){
+
+    }
     //Contructor for the Reporting Structure class, takes an employee as a parameter
-    public ReportingStructure(Employee emp){
+    public ReportingStructure(Employee emp, EmployeeService empSer){
         this.employee = emp;        
-        this.numberOfReports = navigateTree(employee);
+        this.numberOfReports = navigateTree(employee, empSer);
 
     }
 
     //this is a recursive function to navigate the "tree" of employees and find the number of underlings for a given employee
-    private int navigateTree(Employee emp){
-        int count = 1;
-        if(emp.getDirectReports() != null){
-            for (int i = 0; i < emp.getDirectReports().size(); i++){
-                count = navigateTree(emp.getDirectReports().get(i)) +1 ;
-            }
+    public int navigateTree(Employee emp, EmployeeService employeeService) {
+    int count = 0; // Start at 0 (only count subordinates, not the given employee)
+
+    if (emp.getDirectReports() != null) {
+        for (Employee e : emp.getDirectReports()) {
+            Employee fullEmployee = employeeService.read(e.getEmployeeId()); // Fetch full employee object
+            count += 1 + navigateTree(fullEmployee, employeeService); // Recursively count reports
         }
-        return count;
+    }
+
+    return count;
+}
+    
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+    }
+    
+    public void setNumReps(int numberOfReports) {
+        this.numberOfReports = numberOfReports;
     }
 
     public int getNumReps(){
