@@ -12,7 +12,8 @@ import org.springframework.lang.NonNull;
 
 import java.net.InetSocketAddress;
 
-@EnableMongoRepositories(basePackageClasses = EmployeeRepository.class)
+@EnableMongoRepositories(basePackages = "com.mindex.challenge.dao") //trying this so both dao files can use the mongo db
+// @EnableMongoRepositories(basePackageClasses = EmployeeRepository.class)
 @Configuration
 public class MongoConfig extends AbstractMongoClientConfiguration {
 
